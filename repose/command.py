@@ -1,3 +1,4 @@
+import os
 from operator import itemgetter
 
 import click
@@ -29,6 +30,7 @@ def cli():
 @click.option('-r', '--resolution', callback=validate_resolution, default='1d')
 @click.option('-d', '--database', required=True)
 def scan(repo, resolution, database):
+    repo = os.path.realpath(repo)
     hashes_and_timestamps = list(get_commit_timestamps(repo))
 
     thinned_hashes_and_timestamps = list(thin_time_sequence(
