@@ -3,6 +3,7 @@ from operator import itemgetter
 import click
 import tqdm
 
+from repose.chart import generate_chart_data, generate_streamchart
 from repose.db import ReposeDB
 from repose.gen import calculate_revision_stats
 from repose.git import get_commit_timestamps
@@ -10,6 +11,8 @@ from repose.ts import parse_resolution, thin_time_sequence
 
 
 def validate_resolution(ctx, param, value):
+    if value is None:
+        return None
     resolution = parse_resolution(value)
     if resolution.total_seconds() <= 0:
         raise click.BadParameter('resolution too small')
@@ -44,6 +47,18 @@ def scan(repo, resolution, database):
             data = calculate_revision_stats(repo, hash)
             db.add_data(hash=hash, timestamp=timestamp, data=data)
             db.commit()
+
+
+@cli.command()
+@click.option('-r', '--resolution', callback=validate_resolution, default=None)
+@click.option('-o', '--output', default='chart.html')
+@click.argument('database', required=True)
+def chart(database, resolution, output):
+    db = ReposeDB(database)
+    chart_data = generate_chart_data(db, resolution)
+    streamchart = generate_streamchart(chart_data)
+    streamchart = streamchart.interactive()
+    streamchart.save(output)
 
 
 if __name__ == '__main__':

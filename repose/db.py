@@ -26,3 +26,15 @@ class ReposeDB:
 
     def commit(self):
         self.db.commit()
+
+    def get_hashes_and_times(self):
+        cur = self.db.cursor()
+        cur.execute('SELECT hash, ts FROM revision_data ORDER BY ts ASC')
+        for hash, ts in cur:
+            yield (hash, datetime.utcfromtimestamp(ts))
+
+    def get_data(self, hash):
+        cur = self.db.cursor()
+        cur.execute('SELECT data FROM revision_data WHERE hash = ? LIMIT 1', [hash])
+        data, = cur.fetchone()
+        return json.loads(data)

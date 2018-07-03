@@ -2,6 +2,7 @@
 *.cover
 *.egg
 *.egg-info/
+*.html
 *.log
 *.manifest
 *.mo
