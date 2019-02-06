@@ -34,7 +34,7 @@ def generate_streamchart(chart_data):
             field='count',
             aggregate='sum',
             type='quantitative',
-            stack='center',
+            stack='zero',
             axis=alt.Axis(title='LOC'),
         ),
         alt.Color(
