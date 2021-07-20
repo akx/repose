@@ -1,5 +1,6 @@
 import multiprocessing
 import os
+import datetime
 from operator import itemgetter
 
 import click
@@ -27,7 +28,7 @@ def _calculate_revision_stats(job):
 )
 @click.option("-d", "--database", required=True, help="path to database file to save")
 @click.command()
-def scan(repo, resolution, database):
+def scan(repo: str, resolution: datetime.timedelta, database: str):
     repo = os.path.realpath(repo)
     db = ReposeDB(database)
 

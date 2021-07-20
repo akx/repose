@@ -1,9 +1,14 @@
+from datetime import timedelta
+from typing import Optional
+
 import click
 
 from repose.ts import parse_resolution
 
 
-def validate_resolution(ctx, param, value):
+def validate_resolution(
+    ctx: click.Context, param: click.Option, value: Optional[str]
+) -> Optional[timedelta]:
     if value is None:
         return None
     resolution = parse_resolution(value)

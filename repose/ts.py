@@ -1,10 +1,14 @@
 import re
-from datetime import timedelta
+from datetime import datetime, timedelta
+from operator import itemgetter
+from typing import Any, Iterator, Tuple
 
 from repose.utils import make_thinner
 
 
-def thin_time_sequence(sequence, time_getter, interval):
+def thin_time_sequence(
+    sequence: Iterator[Any], time_getter: itemgetter, interval: timedelta
+) -> Iterator[Tuple[str, datetime]]:
     item = last_item = None
     thinner = make_thinner(interval)
     for item in sequence:
@@ -25,7 +29,7 @@ resolution_suffixes = {
 resolution_bit_re = re.compile("([0-9.]+)\s*(\w+)")
 
 
-def parse_resolution(value):
+def parse_resolution(value: str) -> timedelta:
     delta = timedelta()
     for bit in resolution_bit_re.finditer(value):
         value, suffix = bit.groups()

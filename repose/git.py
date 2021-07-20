@@ -2,9 +2,12 @@ import datetime
 import os
 import shlex
 import subprocess
+from typing import Iterator, Tuple
 
 
-def get_commit_timestamps(repo_dir, branch="master"):
+def get_commit_timestamps(
+    repo_dir: str, branch: str = "master"
+) -> Iterator[Tuple[str, datetime.datetime]]:
     log_lines = subprocess.check_output(
         "git log --reverse --date-order --pretty=%%H:%%ct %s" % shlex.quote(branch),
         cwd=repo_dir,

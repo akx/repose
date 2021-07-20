@@ -6,7 +6,7 @@ import tempfile
 from repose.git import export_revision
 
 
-def calculate_revision_stats(repo_dir, revision):
+def calculate_revision_stats(repo_dir: str, revision: str) -> dict:
     tempdir = tempfile.mkdtemp(prefix="repose-checkout-")
     try:
         export_revision(repo_dir, revision, tempdir)

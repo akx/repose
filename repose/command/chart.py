@@ -1,3 +1,5 @@
+import datetime
+
 import click
 
 from repose.chart import generate_chart_data, generate_streamchart
@@ -9,7 +11,7 @@ from repose.db import ReposeDB
 @click.option("-o", "--output", default="chart.html")
 @click.argument("database", required=True)
 @click.command()
-def chart(database, resolution, output):
+def chart(database: str, resolution: datetime.timedelta, output: str):
     db = ReposeDB(database)
     chart_data = generate_chart_data(db, resolution)
     streamchart = generate_streamchart(chart_data)
