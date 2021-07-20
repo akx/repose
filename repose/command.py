@@ -27,8 +27,8 @@ def cli():
 
 @cli.command()
 @click.argument('repo')
-@click.option('-r', '--resolution', callback=validate_resolution, default='1d')
-@click.option('-d', '--database', required=True)
+@click.option('-r', '--resolution', callback=validate_resolution, default='1d', help='resolution (e.g. 1d, 1w, ...)')
+@click.option('-d', '--database', required=True, help='path to database file to save')
 def scan(repo, resolution, database):
     repo = os.path.realpath(repo)
     hashes_and_timestamps = list(get_commit_timestamps(repo))
