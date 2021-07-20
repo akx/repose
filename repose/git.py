@@ -1,7 +1,7 @@
+import datetime
 import os
 import shlex
 import subprocess
-import datetime
 
 
 def get_commit_timestamps(repo_dir, branch="master"):
