@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 from operator import itemgetter
 
@@ -9,6 +10,11 @@ from repose.db import ReposeDB
 from repose.gen import calculate_revision_stats
 from repose.git import get_commit_timestamps
 from repose.ts import thin_time_sequence
+
+
+def _calculate_revision_stats(job):
+    repo, revision, timestamp = job
+    return (job, calculate_revision_stats(repo, revision))
 
 
 @click.argument("repo")
@@ -23,23 +29,26 @@ from repose.ts import thin_time_sequence
 @click.command()
 def scan(repo, resolution, database):
     repo = os.path.realpath(repo)
-    hashes_and_timestamps = list(get_commit_timestamps(repo))
+    db = ReposeDB(database)
 
-    thinned_hashes_and_timestamps = list(
-        thin_time_sequence(
-            hashes_and_timestamps,
+    jobs = [
+        (repo, revision, timestamp)
+        for (revision, timestamp) in thin_time_sequence(
+            get_commit_timestamps(repo),
             time_getter=itemgetter(1),
             interval=resolution,
         )
-    )
+        if not db.has_hash(revision)
+    ]
 
-    db = ReposeDB(database)
+    with multiprocessing.Pool(
+        processes=max(1, multiprocessing.cpu_count() - 2)
+    ) as pool, tqdm.tqdm(total=len(jobs), unit="rev", unit_scale=True) as pb:
 
-    with tqdm.tqdm(thinned_hashes_and_timestamps, unit="rev", unit_scale=True) as pb:
-        for hash, timestamp in pb:
-            if db.has_hash(hash):
-                continue
-            pb.set_postfix_str(str(timestamp))
-            data = calculate_revision_stats(repo, hash)
-            db.add_data(hash=hash, timestamp=timestamp, data=data)
+        for (repo, revision, timestamp), data in pool.imap_unordered(
+            _calculate_revision_stats, jobs, chunksize=3
+        ):
+            pb.set_postfix_str(str(timestamp), refresh=False)
+            pb.update(1)
+            db.add_data(hash=revision, timestamp=timestamp, data=data)
             db.commit()
