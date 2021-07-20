@@ -15,3 +15,4 @@ def chart(database, resolution, output):
     streamchart = generate_streamchart(chart_data)
     streamchart = streamchart.interactive()
     streamchart.save(output)
+    click.echo(f"Wrote {output} from {database}")
