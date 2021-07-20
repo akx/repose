@@ -15,8 +15,8 @@ Usage
   
 * Create a Python 3 virtualenv or something, then `pip install -r requirements.txt`.
 
-* Run `python3 -m repose.command scan -d my-repo.sqlite3 my-repo-path`.
-* Run `python3 -m repose.command chart my-repo.sqlite3`.
+* Run `python3 -m repose scan -d my-repo.sqlite3 my-repo-path`.
+* Run `python3 -m repose chart my-repo.sqlite3`.
 * Open `chart.html`. Yay!
 
 Tips
