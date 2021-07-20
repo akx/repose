@@ -16,7 +16,7 @@ def validate_resolution(ctx, param, value):
         return None
     resolution = parse_resolution(value)
     if resolution.total_seconds() < 0:
-        raise click.BadParameter('resolution too small')
+        raise click.BadParameter("resolution too small")
     return resolution
 
 
@@ -26,22 +26,30 @@ def cli():
 
 
 @cli.command()
-@click.argument('repo')
-@click.option('-r', '--resolution', callback=validate_resolution, default='1d', help='resolution (e.g. 1d, 1w, ...)')
-@click.option('-d', '--database', required=True, help='path to database file to save')
+@click.argument("repo")
+@click.option(
+    "-r",
+    "--resolution",
+    callback=validate_resolution,
+    default="1d",
+    help="resolution (e.g. 1d, 1w, ...)",
+)
+@click.option("-d", "--database", required=True, help="path to database file to save")
 def scan(repo, resolution, database):
     repo = os.path.realpath(repo)
     hashes_and_timestamps = list(get_commit_timestamps(repo))
 
-    thinned_hashes_and_timestamps = list(thin_time_sequence(
-        hashes_and_timestamps,
-        time_getter=itemgetter(1),
-        interval=resolution,
-    ))
+    thinned_hashes_and_timestamps = list(
+        thin_time_sequence(
+            hashes_and_timestamps,
+            time_getter=itemgetter(1),
+            interval=resolution,
+        )
+    )
 
     db = ReposeDB(database)
 
-    with tqdm.tqdm(thinned_hashes_and_timestamps, unit='rev', unit_scale=True) as pb:
+    with tqdm.tqdm(thinned_hashes_and_timestamps, unit="rev", unit_scale=True) as pb:
         for hash, timestamp in pb:
             if db.has_hash(hash):
                 continue
@@ -52,9 +60,9 @@ def scan(repo, resolution, database):
 
 
 @cli.command()
-@click.option('-r', '--resolution', callback=validate_resolution, default=None)
-@click.option('-o', '--output', default='chart.html')
-@click.argument('database', required=True)
+@click.option("-r", "--resolution", callback=validate_resolution, default=None)
+@click.option("-o", "--output", default="chart.html")
+@click.argument("database", required=True)
 def chart(database, resolution, output):
     db = ReposeDB(database)
     chart_data = generate_chart_data(db, resolution)
@@ -63,5 +71,5 @@ def chart(database, resolution, output):
     streamchart.save(output)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()

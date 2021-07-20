@@ -17,12 +17,12 @@ def thin_time_sequence(sequence, time_getter, interval):
 
 
 resolution_suffixes = {
-    'd': lambda v: timedelta(days=v),
-    'm': lambda v: timedelta(minutes=v),
-    'mo': lambda v: timedelta(days=v * 30),
-    'w': lambda v: timedelta(weeks=v),
+    "d": lambda v: timedelta(days=v),
+    "m": lambda v: timedelta(minutes=v),
+    "mo": lambda v: timedelta(days=v * 30),
+    "w": lambda v: timedelta(weeks=v),
 }
-resolution_bit_re = re.compile('([0-9.]+)\s*(\w+)')
+resolution_bit_re = re.compile("([0-9.]+)\s*(\w+)")
 
 
 def parse_resolution(value):

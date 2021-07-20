@@ -7,11 +7,11 @@ from repose.git import export_revision
 
 
 def calculate_revision_stats(repo_dir, revision):
-    tempdir = tempfile.mkdtemp(prefix='repose-checkout-')
+    tempdir = tempfile.mkdtemp(prefix="repose-checkout-")
     try:
         export_revision(repo_dir, revision, tempdir)
         output = subprocess.check_output(
-            '/usr/bin/env tokei -o json .',
+            "/usr/bin/env tokei -o json .",
             cwd=tempdir,
             shell=True,
         ).decode()
