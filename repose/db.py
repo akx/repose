@@ -26,7 +26,7 @@ class ReposeDB:
             [
                 hash,
                 timestamp,
-                dumps(data, sort_keys=True),
+                dumps(data),
             ],
         )
 
