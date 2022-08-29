@@ -26,6 +26,7 @@ Tips
   to change this, e.g. `-r 1w` for a week, etc. This also works for `chart`.
 * You can hang on to the database file to avoid having to rescan all of the repository's history.
 * Thanks to Tokei's data format, the database contains per-file statistics too (though there is no visualizer for those yet). Maybe you can think of something to do with them?
-
+* You can install [`orjson`][orjson] for faster JSON handling.
 
 [tokei]: https://github.com/Aaronepower/tokei
+[orjson]: https://github.com/ijl/orjson

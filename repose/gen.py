@@ -1,4 +1,4 @@
-import json
+from repose._json import loads
 import shutil
 import subprocess
 import tempfile
@@ -15,6 +15,6 @@ def calculate_revision_stats(repo_dir: str, revision: str) -> dict:
             cwd=tempdir,
             shell=True,
         ).decode()
-        return json.loads(output)
+        return loads(output)
     finally:
         shutil.rmtree(tempdir)

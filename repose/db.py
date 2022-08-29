@@ -1,4 +1,4 @@
-import json
+from repose._json import dumps, loads
 import sqlite3
 from datetime import datetime
 from typing import Iterator, Tuple
@@ -26,7 +26,7 @@ class ReposeDB:
             [
                 hash,
                 timestamp,
-                json.dumps(data, sort_keys=True),
+                dumps(data, sort_keys=True),
             ],
         )
 
@@ -43,4 +43,4 @@ class ReposeDB:
         cur = self.db.cursor()
         cur.execute("SELECT data FROM revision_data WHERE hash = ? LIMIT 1", [hash])
         (data,) = cur.fetchone()
-        return json.loads(data)
+        return loads(data)
