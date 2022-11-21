@@ -21,10 +21,11 @@ def thin_time_sequence(
 
 
 resolution_suffixes = {
-    "d": lambda v: timedelta(days=v),
     "m": lambda v: timedelta(minutes=v),
-    "mo": lambda v: timedelta(days=v * 30),
+    "h": lambda v: timedelta(hours=v),
+    "d": lambda v: timedelta(days=v),
     "w": lambda v: timedelta(weeks=v),
+    "mo": lambda v: timedelta(days=v * 30),
 }
 resolution_bit_re = re.compile("([0-9.]+)\s*(\w+)")
 
