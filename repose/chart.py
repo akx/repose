@@ -1,5 +1,6 @@
 from datetime import timedelta
 from operator import itemgetter
+import tqdm
 from typing import TYPE_CHECKING, Any, Dict, Iterator, Optional, Union
 
 from repose.db import ReposeDB
@@ -20,9 +21,13 @@ def generate_chart_data(
             interval=resolution,
         )
 
-    for hash, time in hashes_and_times:
-        data = db.get_data(hash)
-        by_language = {language: info["code"] for (language, info) in data.items()}
+    for hash, time in tqdm.tqdm(hashes_and_times):
+        by_language = {
+            language: info["code"]
+            for (language, info)
+            in db.get_data(hash).items()
+            if language != "Total"
+        }
         for language, num in by_language.items():
             yield {"language": language, "count": num, "date": time.isoformat(" ")}
 
