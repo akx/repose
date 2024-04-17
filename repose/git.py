@@ -1,6 +1,4 @@
 import datetime
-import os
-import shlex
 import subprocess
 from typing import Iterator, Tuple
 
@@ -28,11 +26,3 @@ def get_commit_timestamps(
         yield (hash, datetime.datetime.utcfromtimestamp(float(timestamp)))
 
 
-def export_revision(repo_dir: str, revision: str, target_dir: str) -> None:
-    target_dir = os.path.realpath(target_dir)
-    os.makedirs(target_dir, exist_ok=True)
-    subprocess.check_output(
-        f"git archive --format=tar {shlex.quote(revision)} | tar x -C {shlex.quote(target_dir)}",
-        cwd=repo_dir,
-        shell=True,
-    )

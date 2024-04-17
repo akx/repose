@@ -22,12 +22,23 @@ def generate_chart_data(
         )
 
     for hash, time in tqdm.tqdm(hashes_and_times):
-        by_language = {
-            language: info["code"]
-            for (language, info)
-            in db.get_data(hash).items()
-            if language != "Total"
-        }
+        data = db.get_data(hash)
+        if not isinstance(data, dict):
+            raise ValueError(f"expected dict, got {type(data)}")
+        if data.get("format") == "tokei-tar":
+            by_language = {
+                line["language"]: line["code"]
+                for line
+                in data["lines"]
+                if line["language"] and line["language"] != "Total"
+            }
+        else:
+            by_language = {
+                language: info["code"]
+                for (language, info)
+                in data.items()
+                if language != "Total"
+            }
         for language, num in by_language.items():
             yield {"language": language, "count": num, "date": time.isoformat(" ")}
 

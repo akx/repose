@@ -7,13 +7,19 @@ You, too, can have your repository visualized like this!
 
 <img src="example-chart.png">
 
-Usage
------
+Installation
+------------
 
 * Repose uses [Tokei][tokei] for LOC calculations, so you need it installed and on your path.
   **If you're compiling Tokei by yourself, make sure JSON serialization is enabled.**
+
+* You can also alternately put [tokei-tar][tokei-tar] on your PATH, and it will be used for
+  faster and less disk-intensive computation.
   
 * Create a Python 3 virtualenv or something, then `pip install -r requirements.txt`.
+
+Usage
+------------
 
 * Run `python3 -m repose scan -d my-repo.sqlite3 my-repo-path`.
 * Run `python3 -m repose chart my-repo.sqlite3`.
@@ -28,5 +34,6 @@ Tips
 * Thanks to Tokei's data format, the database contains per-file statistics too (though there is no visualizer for those yet). Maybe you can think of something to do with them?
 * You can install [`orjson`][orjson] for faster JSON handling.
 
-[tokei]: https://github.com/Aaronepower/tokei
+[tokei]: https://github.com/XAMPPRocky/tokei
+[tokei-tar]: https://github.com/akx/tokei-tar
 [orjson]: https://github.com/ijl/orjson
