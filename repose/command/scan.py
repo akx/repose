@@ -24,6 +24,7 @@ def _calculate_revision_stats(job):
     "--resolution",
     callback=validate_resolution,
     default="1d",
+    show_default=True,
     help="resolution (e.g. 1d, 1w, ...)",
 )
 @click.option("-d", "--database", required=True, help="path to database file to save")
