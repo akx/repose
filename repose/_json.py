@@ -1,4 +1,4 @@
 try:
-    from orjson import loads, dumps
+    from orjson import dumps, loads
 except ModuleNotFoundError:
-    from json import loads, dumps
+    from json import dumps, loads  # noqa: F401

@@ -1,7 +1,8 @@
-from repose._json import dumps, loads
 import sqlite3
 from datetime import datetime
 from typing import Iterator, Tuple
+
+from repose._json import dumps, loads
 
 
 class ReposeDB:
