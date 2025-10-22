@@ -16,13 +16,14 @@ Installation
 * You can also alternately put [tokei-tar][tokei-tar] on your PATH, and it will be used for
   faster and less disk-intensive computation.
   
-* Create a Python 3 virtualenv or something, then `pip install -r requirements.txt`.
+* I'll assume you have [uv][uv]; if you don't,
+  create a Python 3 virtualenv or something, then `pip install -e .`.
 
 Usage
 ------------
 
-* Run `python3 -m repose scan -d my-repo.sqlite3 my-repo-path`.
-* Run `python3 -m repose chart my-repo.sqlite3`.
+* Run `uv run -m repose scan -d my-repo.sqlite3 my-repo-path`.
+* Run `uv run -m repose chart my-repo.sqlite3`.
 * Open `chart.html`. Yay!
 
 Tips
@@ -37,3 +38,4 @@ Tips
 [tokei]: https://github.com/XAMPPRocky/tokei
 [tokei-tar]: https://github.com/akx/tokei-tar
 [orjson]: https://github.com/ijl/orjson
+[uv]: https://docs.astral.sh/uv/

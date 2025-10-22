@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "repose"
+dynamic = ["version"]
+description = "Visualize the evolution of a Git repository's languages and size"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Aarni Koskela", email = "akx@iki.fi" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "altair~=4.2.0",
+    "click>=7.0",
+    "tqdm~=4.64.0",
+]
+
+[project.optional-dependencies]
+orjson = [
+    "orjson>=3.10.15",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.1",
+]
+
+[project.urls]
+Documentation = "https://github.com/akx/repose#readme"
+Issues = "https://github.com/akx/repose/issues"
+Source = "https://github.com/akx/repose"
+
+[tool.hatch.version]
+path = "repose/__init__.py"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+extend-select = ["I"]

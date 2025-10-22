@@ -1,6 +1,6 @@
+import datetime
 import multiprocessing
 import os
-import datetime
 from operator import itemgetter
 
 import click
@@ -43,13 +43,12 @@ def scan(repo: str, resolution: datetime.timedelta, database: str):
         if not db.has_hash(revision)
     ]
     if not jobs:
-        print(f"Nothing to do; likely all commits already scanned")
+        print("Nothing to do; likely all commits already scanned")
         return
 
     with multiprocessing.Pool(
         processes=max(1, multiprocessing.cpu_count() - 2)
     ) as pool, tqdm.tqdm(total=len(jobs), unit="rev", unit_scale=True) as pb:
-
         for (repo, revision, timestamp), data in pool.imap_unordered(
             _calculate_revision_stats, jobs, chunksize=3
         ):

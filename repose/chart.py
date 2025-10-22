@@ -1,7 +1,8 @@
 from datetime import timedelta
 from operator import itemgetter
-import tqdm
 from typing import TYPE_CHECKING, Any, Dict, Iterator, Optional, Union
+
+import tqdm
 
 from repose.db import ReposeDB
 from repose.ts import thin_time_sequence
@@ -28,15 +29,13 @@ def generate_chart_data(
         if data.get("format") == "tokei-tar":
             by_language = {
                 line["language"]: line["code"]
-                for line
-                in data["lines"]
+                for line in data["lines"]
                 if line["language"] and line["language"] != "Total"
             }
         else:
             by_language = {
                 language: info["code"]
-                for (language, info)
-                in data.items()
+                for (language, info) in data.items()
                 if language != "Total"
             }
         for language, num in by_language.items():
