@@ -7,7 +7,8 @@ from repose.tool_paths import GIT
 
 def get_commit_timestamps(
     repo_dir: str,
-    branch: str = "master",
+    *,
+    branch: str,
 ) -> Iterator[Tuple[str, datetime.datetime]]:
     log_lines = subprocess.check_output(
         [

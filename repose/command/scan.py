@@ -28,15 +28,22 @@ def _calculate_revision_stats(job):
     help="resolution (e.g. 1d, 1w, ...)",
 )
 @click.option("-d", "--database", required=True, help="path to database file to save")
+@click.option("-b", "--branch", default="master", help="branch to scan")
 @click.command()
-def scan(repo: str, resolution: datetime.timedelta, database: str):
+def scan(
+    *,
+    branch: str,
+    database: str,
+    repo: str,
+    resolution: datetime.timedelta,
+):
     repo = os.path.realpath(repo)
     db = ReposeDB(database)
 
     jobs = [
         (repo, revision, timestamp)
         for (revision, timestamp) in thin_time_sequence(
-            get_commit_timestamps(repo),
+            get_commit_timestamps(repo, branch=branch),
             time_getter=itemgetter(1),
             interval=resolution,
         )
